@@ -6,12 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Component("title")
-public class LessonPage extends AnyPageAbs<LessonPage> {
+public class CoursePage extends AnyPageAbs<CoursePage> {
 
   @FindBy(css = "title")
   WebElement pageTitle;
 
-  public LessonPage(WebDriver driver) {
+  public CoursePage(WebDriver driver) {
     super(driver);
   }
 

@@ -1,6 +1,8 @@
 package actions;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -33,9 +35,13 @@ public abstract class CommonActions<T> {
   }
 
   public void scrollToElement(WebElement webElement) {
-    new Actions(driver)
-        .scrollToElement(webElement)
-        .perform();
+    try {
+      new Actions(driver)
+          .scrollToElement(webElement)
+          .perform();
+    } catch (UnsupportedCommandException exception) {//opera does not support Actions
+      ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
+    }
   }
 
 }

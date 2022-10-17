@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import pages.LessonPage;
+import pages.CoursePage;
 
 @Component("//*[contains(@class, 'header2-menu_main')]")
 public class HeaderMenuComponent extends AnyComponentAbs<HeaderMenuComponent> {
@@ -43,7 +43,7 @@ public class HeaderMenuComponent extends AnyComponentAbs<HeaderMenuComponent> {
     return this;
   }
 
-  public LessonPage clickCourseItem(CourcesData courcesData) {
+  public CoursePage clickCourseItem(CourcesData courcesData) {
     String baseCourseTypeLocator = menuItemDropdownListLocator
         + "/*[contains(@class, 'header2-menu__subdropdown-wrapper')][.//a[@title='%s']]";
     WebElement baseCourseElement = driver.findElement(By.xpath(String.format(baseCourseTypeLocator,
@@ -55,7 +55,7 @@ public class HeaderMenuComponent extends AnyComponentAbs<HeaderMenuComponent> {
 
     baseCourseElement.findElement(By.xpath(String.format(".//a[@title='%s']", courcesData.getName()))).click();
 
-    return new LessonPage(driver);
+    return new CoursePage(driver);
   }
 
 }

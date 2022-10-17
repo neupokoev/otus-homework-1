@@ -24,7 +24,6 @@ public interface IDriver {
   }
 
   default void downloadLocalWebDriver(DriverManagerType driverType) throws DriverTypeNotSupported {
-    //Config webDriverManagerConfig = WebDriverManager.getInstance().config();
     String browserVersion = System.getProperty("browser.version", "CHROME");
     Config webDriverManagerConfig;
 
@@ -40,7 +39,6 @@ public interface IDriver {
           break;
         case OPERA:
           webDriverManagerConfig = WebDriverManager.operadriver().config();
-          webDriverManagerConfig.setAvoidBrowserDetection(true);
           webDriverManagerConfig.setOperaDriverVersion(browserVersion);
           break;
         default:
