@@ -57,4 +57,9 @@ public abstract class AnyPageAbs<T> extends CommonActions<T> {
   public String getPageTitle() {
     return driver.getTitle();
   }
+
+  public T printPageTitle() {
+    System.out.println( driver.getTitle());
+    return (T) page(getClass());
+  }
 }

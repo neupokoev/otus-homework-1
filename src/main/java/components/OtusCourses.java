@@ -13,6 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Component(".lessons a")
 public class OtusCourses extends AnyComponentAbs<OtusCourses> {
@@ -29,6 +32,9 @@ public class OtusCourses extends AnyComponentAbs<OtusCourses> {
   @FindBy(css = ".lessons a .lessons__new-item-title")
   private List<WebElement> coursesTitles;
 
+  private long coursesAmount;
+  private List<WebElement> namedCourses;
+
   public OtusCourses(WebDriver driver) {
     super(driver);
   }
@@ -40,16 +46,37 @@ public class OtusCourses extends AnyComponentAbs<OtusCourses> {
     return new CoursePage(driver);
   }
 
-  public int getCoursesAmount() {
-    return courses.size();
+  public OtusCourses getCoursesAmount() {
+    this.coursesAmount = courses.size();
+    return this;
+  }
+
+  public void checkThatLessonsAmountIsGreaterThan(int expectedCoursesAmount) {
+    assertThat(coursesAmount)
+        .withFailMessage("У OTUS'a большие проблемы с выбором курсов!")
+        .isGreaterThan(expectedCoursesAmount);
   }
 
   //Метод фильтр по названию курса (ищет подстроку в названии курса без учета регистра)
-  public long filterCoursesNamedAs(String subStringInCourseName) {
-    return courses.stream()
+  public OtusCourses filterCoursesNamedAs(String subStringInCourseName) {
+    namedCourses = courses.stream()
         .filter(item -> (item.findElement(By.cssSelector(".lessons__new-item-title")).getText().toLowerCase())
             .contains(subStringInCourseName.toLowerCase()))
-        .count();
+        .collect(Collectors.toList());
+    return this;
+  }
+
+  public OtusCourses printFilteredCoursesTitle() {
+    namedCourses
+        .forEach(course -> System.out.println(course.findElement(By.cssSelector(".lessons__new-item-title")).getText()));
+    return this;
+  }
+
+  public void checkThatNamedCoursesAmountIsGreaterThan(int expectedNamedCoursesAmount, String subStringInCourseName) {
+    assertThat(namedCourses.size())
+        .withFailMessage("Всего курсов, содержащих фразу " + subStringInCourseName + " равно "
+            + namedCourses.size() + ", а это не больше, чем " + expectedNamedCoursesAmount)
+        .isGreaterThan(expectedNamedCoursesAmount);
   }
 
   //Метод выбора курса, стартующего раньше всех/позже всех (при совпадении дат - выбрать любой) при помощи reduce

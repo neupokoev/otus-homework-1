@@ -6,6 +6,7 @@ import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.PageFactory;
 import waiters.StandardWaiter;
 
@@ -39,7 +40,9 @@ public abstract class CommonActions<T> {
       new Actions(driver)
           .scrollToElement(webElement)
           .perform();
-    } catch (UnsupportedCommandException exception) {//opera does not support Actions
+    } catch (UnsupportedCommandException | MoveTargetOutOfBoundsException exception) {
+      //opera does not support Actions
+      //firefox does not work correctly without selenium-leg-rc dependency
       ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
     }
   }
