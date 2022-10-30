@@ -1,5 +1,7 @@
 package components;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import annotations.Component;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,8 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Component(".lessons a")
 public class OtusCourses extends AnyComponentAbs<OtusCourses> {
